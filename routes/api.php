@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post("/paypal/create", "PaypalController@create")->name("paypal.create");
+Route::post("/paypal/execute", "PaypalController@execute")->name("paypal.execute");
+Route::post("/paypal/status", "PaypalController@status")->name("paypal.status");
