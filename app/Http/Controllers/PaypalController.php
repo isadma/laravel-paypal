@@ -58,7 +58,7 @@ class PaypalController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Payment is successfully completed. Thank you for your purchase.",
-                "data" => $payment["primary_data"]
+                "data" => $payment
             ]);
         }else{
             return response()->json([

@@ -11,7 +11,6 @@
 
 <!-- Set up a container element for the button -->
 <div id="paypal-button-container"></div>
-
 <script>
     paypal.Buttons({
         // Sets up the transaction when a payment button is clicked
@@ -23,7 +22,7 @@
                     'accept': 'application/json'
                 }
             }).then(function(res) {
-                console.log("birzatlara bolyarey");
+                console.log("Processing...");
                 console.log(res);
                 return res.json();
             }).then(function(data) {
@@ -45,8 +44,8 @@
             }).then(function(res) {
                 return res.json();
             }).then(function(details) {
-                console.log("Boldy oydyan dostum");
-                console.log(details.data);
+                console.log("Done");
+                console.log(details);
             })
         }
     }).render('#paypal-button-container');

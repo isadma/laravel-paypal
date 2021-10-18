@@ -32,6 +32,9 @@ class PaypalPayment
                 "payer_name" => "{$response->result->payer->name->given_name} {$response->result->payer->name->surname}",
                 "payer_email" => $response->result->payer->email_address,
                 "payer_id" => $response->result->payer->payer_id,
+                "reference" => $response->result->purchase_units[0]->reference_id,
+                "amount" => $response->result->purchase_units[0]->payments->captures[0]->amount->value,
+                "currency" => $response->result->purchase_units[0]->payments->captures[0]->amount->currency_code,
             ],
             "body" => $response->result,
             "headers" => $response->headers,
@@ -96,7 +99,23 @@ class PaypalPayment
         try {
             $response = self::client()->execute(new OrdersGetRequest($id));
             if ($response->statusCode === 200 && $response->result->status === "COMPLETED") {
-                return self::getDataFromResponse($response);
+                return [
+                    "status" => true,
+                    "statusCode" => $response->statusCode,
+                    "primary_data" => [
+                        "id" => $response->result->id,
+                        "code" => $response->statusCode,
+                        "status" => $response->result->status,
+                        "payer_name" => "{$response->result->payer->name->given_name} {$response->result->payer->name->surname}",
+                        "payer_email" => $response->result->payer->email_address,
+                        "payer_id" => $response->result->payer->payer_id,
+                        "reference" => $response->result->purchase_units[0]->reference_id,
+                        "amount" => $response->result->purchase_units[0]->amount->value,
+                        "currency" => $response->result->purchase_units[0]->amount->currency_code,
+                    ],
+                    "body" => $response->result,
+                    "headers" => $response->headers,
+                ];
             }
             return [
                 "status" => false,
